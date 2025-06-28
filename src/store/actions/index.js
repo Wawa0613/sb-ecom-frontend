@@ -6,6 +6,9 @@ export const fetchProducts = (queryString) => async (dispatch) => {
     try {
         dispatch({ type: "IS_FETCHING" });
         const { data } = await api.get(`/public/products?${queryString}`);
+        console.log(data);
+        console.log("fetchProducts 的 data 是：", data);
+
         dispatch({
             type: "FETCH_PRODUCTS",
             payload: data.content,

@@ -5,7 +5,7 @@ import Status from './Status';
 import { MdClose, MdDone } from 'react-icons/md';
 
 function ProductViewModal({open, setOpen, product, isAvailable}) {
-  
+  if (!product) return null; // 防御：product 为空时不渲染
   const {id, productName, image, description, quantity, price, discount, specialPrice} = product;
   const handleClickOpen = () => {
     setOpen(true);
