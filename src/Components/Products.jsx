@@ -1,40 +1,41 @@
-import {FaExclamationTriangle} from "react-icons/fa6";
 import ProductCard from "./ProductCard";
 import { useSelector, useDispatch } from "react-redux";
-//useSelector：从 Redux store 里读取数据。
-//useDispatch：获取 dispatch 方法，发起 action。
-//useEffect：组件挂载时自动执行一次（类似生命周期的 componentDidMount）。
-//dispatch(fetchProducts())：发起异步请求，获取商品数据。
-const Product=()=>{ 
-    //这段代码的作用是：组件加载时自动请求商品数据，
-// 并把全局商品列表读到本地变量 products 里，供页面渲染使用。
-    const isLoading=false;
-    const errorMessage="";
-    const products=useSelector((state)=>state.products.products)
+import { useEffect } from "react";
+import { fetchProducts } from "../store/actions/index";
 
-    const dispatch=useDispatch();
+const Products = () => {
+    console.log("✅ Products.jsx is rendering!");
+    
+    // 通过 Redux 获取商品列表
+    const products = useSelector((state) => state.products.products);
+    console.log("🧪 Redux 中的 products 是：", products);
 
-    useEffect(()=>{
-        dispatch(fetchProducts());
-    },[dispatch]);
-    return(
+    const dispatch = useDispatch();
+
+    // 组件加载时自动请求商品数据
+    useEffect(() => {
+        dispatch(fetchProducts("pageNumber=0&PageSize=50&sortBy=productId&sortOrder=asc"));
+    }, [dispatch]);
+
+    return (
         <div className="lg:px-14 sm:px-8 px-4 py-14 2xl:w-[90%] 2xl:mx-auto">
-            {isLoading && <p>Loading...</p>}
-            {errorMessage && (
-                <p className="text-red-500">
-                    <FaExclamationTriangle className="inline mr-1" />
-                    {errorMessage}
-                </p>
-            )}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {products && products.map((product) => (
-                    <ProductCard key={product.productId} product={product} />
-                ))}
+            {/* <Filter categories={categories ? categories : []}/> */}
+            <div className="min-h-[700px]">
+                <div className="pb-6 pt-14 grid 2xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-y-6 gap-x-6">
+                     {products && 
+                        products.map((item, i) => <ProductCard key={i} {...item} />
+                        )}
+                </div>
+                {/* <div className="flex justify-center pt-10">
+                    <Paginations 
+                        numberOfPage={pagination?.totalPages}
+                        totalProducts={pagination?.totalElements}
+                    />
+                </div> */}
             </div>
         </div>
     )
+    console.log("Products component loaded");
 }
-import { useEffect } from "react";
-import { fetchProducts } from "../../store/actions";
-     
-   
+
+export default Products;
