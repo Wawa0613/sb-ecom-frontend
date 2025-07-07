@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import ProductViewModal from "./ProductViewModal";
+import truncateText from "../../utils/trucateText"; // Import the truncateText function
 
-const ProductCard = (props) => {
-  // 兼容 props 结构，确保 product 一定存在
-  const product = props.product || props;
-  const about = props.about || false;
-  if (!product) return null;
+const ProductCard = ({ product, about = false }) => {
   const {
     productId,
     productName,
@@ -45,11 +42,11 @@ const ProductCard = (props) => {
           onClick={handleProductView}
           className="text-lg font-semibold mb-2 cursor-pointer"
         >
-          {productName}
+          {truncateText(productName,50)}
         </h2>
 
         <div className="min-h-20 max-h-20">
-          <p className="text-gray-600 text-sm">{description}</p>
+          <p className="text-gray-600 text-sm">{truncateText(description,80)}</p>
         </div>
 
         {!about && (
