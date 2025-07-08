@@ -2,6 +2,9 @@ import { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import ProductViewModal from "./ProductViewModal";
 import truncateText from "../../utils/truncateText";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../store/actions";
 
 const ProductCard = ({
         productId,
@@ -14,6 +17,7 @@ const ProductCard = ({
         specialPrice,
         about = false,
 }) => {
+    const dispatch = useDispatch();
     const [openProductViewModal, setOpenProductViewModal] = useState(false);
     const btnLoader = false;
     const [selectedViewProduct, setSelectedViewProduct] = useState("");
@@ -24,6 +28,11 @@ const ProductCard = ({
             setSelectedViewProduct(product);
             setOpenProductViewModal(true);
         }
+    };
+
+    const addToCartHandler = (cartItems) => {
+        // Dispatch the addToCart action
+        dispatch(addToCart(cartItems,1, toast));
     };
 
     return (
@@ -88,7 +97,7 @@ const ProductCard = ({
                     </span>
                 )}
 
-                {/*
+                {
                 <button
                     disabled={!isAvailable || btnLoader}
                     onClick={() => addToCartHandler({
@@ -105,7 +114,7 @@ const ProductCard = ({
                     <FaShoppingCart className="mr-2"/>
                     {isAvailable ? "Add to Cart" : "Stock Out"}
                 </button>
-                */}
+                }
                 </div>
             )}
                 
