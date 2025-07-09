@@ -18,6 +18,9 @@ import Cart from './Components/cart/Cart';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './Components/shared/Navbar';
 import { Toaster } from 'react-hot-toast';
+import LogIn from './Components/auth/LogIn';
+import PrivateRoute from './Components/PrivateRoute.jsx';
+import Register from './Components/auth/Register';
 
 /*
   App 组件是整个应用的根组件
@@ -42,6 +45,9 @@ function App() {
           <Route path='/about' element={ <About />}/>
           <Route path='/contact' element={ <Contact />}/>
           <Route path="/cart" element={<Cart />} />
+          <Route path='/' element={ <PrivateRoute /> } />
+           <Route path="/login" element={<LogIn />} />
+            <Route path="/register" element={<Register />} />
         </Routes>
       </Router>
       <Toaster position="bottom-center" />

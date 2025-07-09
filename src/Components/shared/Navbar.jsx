@@ -10,8 +10,8 @@ const Navbar = () => {
     const path = useLocation().pathname;
     const [navbarOpen, setNavbarOpen] = useState(false);
     // 兼容 state.carts 和 state.cart
-    const cart = useSelector(state => state.carts?.cart || state.cart?.cart || state.carts || state.cart || []);
-
+    const { cart } = useSelector(state => state.carts);
+    const { user } = useSelector(state => state.auth);
     return (
         <div className="h-[70px] bg-custom-gradient text-white z-50 flex items-center sticky top-0">
             <div className="lg:px-14 sm:px-8 px-4 w-full flex justify-between">
@@ -75,17 +75,23 @@ const Navbar = () => {
                         </Badge>
                    </Link> 
                 </li>
+                  {(user && user.id) ? (
+                    <li className="font-medium transition-all duration-150">
+                        <UserMenu />
+                    </li>
+                ) : (
                 <li className="font-medium transition-all duration-150">
-                  <Link className="flex items-center space-x-2 px-4 py-[6px] \
-                        bg-gradient-to-r from-purple-600 to-red-500 \
-                        text-white font-semibold rounded-md shadow-lg \
-                        hover:from-purple-500 hover:to-red-400 transition \
-                        duration-300 ease-in-out transform"
+                   <Link className="flex items-center space-x-2 px-4 py-[6px] 
+                            bg-linear-to-r from-purple-600 to-red-500 
+                            text-white font-semibold rounded-md shadow-lg 
+                            hover:from-purple-500 hover:to-red-400 transition 
+                            duration-300 ease-in-out transform "
                     to="/login">
-                    <FaSignInAlt />
-                    <span>Login</span>
-                  </Link>
+                        <FaSignInAlt />
+                        <span>Login</span>
+                   </Link> 
                 </li>
+                )}
             </ul>
 
             <button
