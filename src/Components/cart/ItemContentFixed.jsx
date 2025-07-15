@@ -1,6 +1,4 @@
-import React from "react";
-
-import { useState } from "react";
+import React, { useState } from "react";
 import { HiOutlineTrash } from "react-icons/hi";
 import SetQuantity from "./SetQuantity";
 import { useDispatch } from "react-redux";
@@ -9,7 +7,7 @@ import toast from "react-hot-toast";
 import { formatPrice } from "../../utils/formatPrice";
 import truncateText from "../../utils/truncateText";
 
-const ItemContent = ({
+const ItemContentFixed = ({
     productId,
     productName,
     image,
@@ -57,8 +55,12 @@ const ItemContent = ({
                     <img 
                         src={`${import.meta.env.VITE_BACK_END_URL}/images/${image}`}
                         alt={productName}
-                        className="md:h-36 sm:h-24 h-12 w-full object-cover rounded-md"/>
-                
+                        className="md:h-36 sm:h-24 h-12 w-full object-cover rounded-md"
+                        onError={(e) => {
+                            e.target.src = 'https://via.placeholder.com/200x200?text=No+Image';
+                        }}
+                    />
+                </div>
 
                 <div className="flex items-start gap-5 mt-3">
                     <button
@@ -75,7 +77,6 @@ const ItemContent = ({
                         <HiOutlineTrash size={16} className="text-rose-600"/>
                         Remove
                     </button>
-                    </div>
                 </div>
             </div>
 
@@ -111,7 +112,7 @@ const ItemContent = ({
                 {formatPrice(Number(currentQuantity) * Number(specialPrice))}
             </div>
         </div>
-    )
+    );
 };
 
-export default ItemContent;
+export default ItemContentFixed;

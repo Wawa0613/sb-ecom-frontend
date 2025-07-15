@@ -1,55 +1,80 @@
 const initialState = {
-    cart: [],
+    cart: JSON.parse(localStorage.getItem("cartItems")) || [],
     totalPrice: 0,
     cartId: null,
 }
 
-export const cartReducer = (state = initialState, action) => {
+// 计算购物车总价的工具函数
+const calculateTotalPrice = (cart) => {
+    if (!Array.isArray(cart)) return 0;
+    return cart.reduce((sum, item) => {
+        const price = Number(item.specialPrice) || 0;
+        const qty = Number(item.quantity) || 0;
+        return sum + price * qty;
+    }, 0);
+}
+
+// 初始化时计算总价
+const initState = {
+    ...initialState,
+    totalPrice: calculateTotalPrice(initialState.cart)
+};
+
+export const cartReducer = (state = initState, action) => {
     switch (action.type) {
-        case "ADD_CART":
+        case "ADD_CART": {
             const productToAdd = action.payload;
             const existingProduct = state.cart.find(
                 (item) => item.productId === productToAdd.productId
             );
-
+            let updatedCart;
             if(existingProduct) {
-                const updatedCart = state.cart.map((item) => {
+                updatedCart = state.cart.map((item) => {
                     if (item.productId === productToAdd.productId) {
                         return productToAdd;
                     } else {
                         return item;
                     }
                 });
-
-                return {
-                    ...state,
-                    cart: updatedCart,
-                };
             } else {
-                const newCart = [...state.cart, productToAdd];
-                return {
-                    ...state,
-                    cart: newCart,
-                };
+                updatedCart = [...state.cart, productToAdd];
             }
-        case "REMOVE_CART":
+            
+            // 同步到 localStorage
+            localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+            
             return {
                 ...state,
-                cart: state.cart.filter(
-                    (item) => item.productId !== action.payload.productId
-                ),
+                cart: updatedCart,
+                totalPrice: calculateTotalPrice(updatedCart),
             };
+        }
+        case "REMOVE_CART": {
+            const filteredCart = state.cart.filter(
+                (item) => item.productId !== action.payload.productId
+            );
+            
+            // 同步到 localStorage
+            localStorage.setItem("cartItems", JSON.stringify(filteredCart));
+            
+            return {
+                ...state,
+                cart: filteredCart,
+                totalPrice: calculateTotalPrice(filteredCart),
+            };
+        }
         case "GET_USER_CART_PRODUCTS":
             return {
                 ...state,
                 cart: action.payload,
-                totalPrice: action.totalPrice,
+                totalPrice: Number(action.totalPrice) || calculateTotalPrice(action.payload),
                 cartId: action.cartId,
             };
         case "CLEAR_CART":
+            // 清空 localStorage 中的购物车
+            localStorage.removeItem("cartItems");
             return { cart:[], totalPrice: 0, cartId: null};
         default:
             return state;
     }
-    return state;
 }

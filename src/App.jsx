@@ -21,7 +21,8 @@ import { Toaster } from 'react-hot-toast';
 import LogIn from './Components/auth/LogIn';
 import PrivateRoute from './Components/PrivateRoute.jsx';
 import Register from './Components/auth/Register';
-
+import Checkout from './Components/checkout/Checkout.jsx';
+import OrderConfirmation from './Components/checkout/OrderConfirmation.jsx';
 /*
   App 组件是整个应用的根组件
 */
@@ -38,16 +39,18 @@ function App() {
         <Routes>
           {/* Route 定义了路径和要渲染的组件 */}
           {/* 当访问 http://localhost:3000/ 时，渲染 Home 组件 */}
-          <Route path="/" element={<Home />} />
+          <Route path='/' element={<Home />} />
 
           {/* 当访问 http://localhost:3000/products 时，渲染 Products 组件 */}
-          <Route path="/products" element={<Products />} />
+          <Route path='/products' element={<Products />} />
           <Route path='/about' element={ <About />}/>
           <Route path='/contact' element={ <Contact />}/>
-          <Route path="/cart" element={<Cart />} />
+          <Route path='/cart' element={<Cart />} />
           <Route path='/' element={ <PrivateRoute /> } />
-           <Route path="/login" element={<LogIn />} />
-            <Route path="/register" element={<Register />} />
+           <Route path='/login' element={<LogIn />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/checkout' element={<Checkout />} />
+            <Route path='/order-confirmation' element={<OrderConfirmation />} />
         </Routes>
       </Router>
       <Toaster position="bottom-center" />

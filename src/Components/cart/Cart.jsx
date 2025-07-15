@@ -1,18 +1,20 @@
 import { MdArrowBack, MdShoppingCart } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import ItemContent from "./ItemContent";
+import ItemContentFixed from "./ItemContentFixed";
 import CartEmpty from "./CartEmpty";
 import { formatPrice } from "../../utils/formatPrice";
 
 const Cart = () => {
     const dispatch = useDispatch();
-    const { cart } = useSelector((state) => state.carts);
-    const newCart = { ...cart };
+    const { cart, totalPrice } = useSelector((state) => state.carts);
 
-    newCart.totalPrice = cart?.reduce(
-        (acc, cur) => acc + Number(cur?.specialPrice) * Number(cur?.quantity), 0
-    );
+    // 使用 Redux 中的 totalPrice，如果为 undefined 则本地计算
+    const displayTotalPrice = totalPrice !== undefined ? totalPrice : 
+        cart?.reduce((acc, cur) => acc + Number(cur?.specialPrice) * Number(cur?.quantity), 0) || 0;
+
+    console.log("Cart - totalPrice from Redux:", totalPrice);
+    console.log("Cart - displayTotalPrice:", displayTotalPrice);
 
     if (!cart || cart.length === 0) return <CartEmpty />;
 
@@ -46,7 +48,7 @@ const Cart = () => {
 
             <div>
                 {cart && cart.length > 0 &&
-                    cart.map((item, i) => <ItemContent key={i} {...item}/>)}
+                    cart.map((item, i) => <ItemContentFixed key={i} {...item}/>)}
             </div>
 
             <div className="border-t-[1.5px] border-slate-200 py-4 flex sm:flex-row sm:px-0 px-2 flex-col sm:justify-between gap-4">
@@ -54,7 +56,7 @@ const Cart = () => {
                 <div className="flex text-sm gap-1 flex-col">
                     <div className="flex justify-between w-full md:text-lg text-sm font-semibold">
                         <span>Subtotal</span>
-                        <span>{formatPrice(newCart?.totalPrice)}</span>
+                        <span>{formatPrice(displayTotalPrice)}</span>
                     </div>
 
                     <p className="text-slate-500">
