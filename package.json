@@ -15,8 +15,8 @@
     "@headlessui/react": "^2.2.4",
     "@mui/material": "^6.4.12",
     "@reduxjs/toolkit": "^2.8.2",
-    "@stripe/react-stripe-js": "^3.1.1",
-    "@stripe/stripe-js": "^5.6.0",
+    "@stripe/react-stripe-js": "^3.7.0",
+    "@stripe/stripe-js": "^5.10.0",
     "axios": "^1.10.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -25,8 +25,9 @@
     "react-icons": "^5.5.0",
     "react-loader-spinner": "^6.1.6",
     "react-redux": "^9.2.0",
-    "react-router-dom": "^7.0.1",
-    "swiper": "^11.1.15"
+    "react-router-dom": "^7.6.3",
+    "react-spinners": "^0.17.0",
+    "swiper": "^11.2.10"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
