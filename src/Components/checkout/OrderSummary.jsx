@@ -91,7 +91,7 @@ const OrderSummary = ({ totalPrice, cart, address, paymentMethod}) => {
               </div>
             </div>
             <button
-              className="w-full mt-6 py-3 px-4 rounded-md bg-custom-blue text-white font-bold text-lg shadow hover:bg-blue-700 transition"
+              className="w-full mt-6 py-3 px-4 rounded-md bg-customBlue text-white font-bold text-lg shadow hover:bg-blue-700 transition"
               onClick={() => window.location.href = '/checkout'}>
               Checkout
             </button>

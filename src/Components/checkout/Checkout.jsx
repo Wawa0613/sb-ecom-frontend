@@ -104,7 +104,7 @@ const Checkout = () => {
 
             {activeStep !== steps.length - 1 && (
                 <button
-                    className="bg-custom-blue font-semibold px-6 h-10 rounded-md text-white"
+                    className="bg-customBlue font-semibold px-6 h-10 rounded-md text-white hover:bg-blue-700 transition-colors"
                     onClick={handleNext}>
                     Proceed
                 </button>
